@@ -47,7 +47,7 @@ export class PortainerApi {
   }
 
   async createStack(params: CreateStackParams, body: CreateStackBody): Promise<void> {
-    var apiUrl = ""
+    let apiUrl = ""
     if (params.type === 1){
       apiUrl = "/stacks/create/swarm/string"
     }
