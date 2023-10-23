@@ -47,7 +47,14 @@ export class PortainerApi {
   }
 
   async createStack(params: CreateStackParams, body: CreateStackBody): Promise<void> {
-    await this.axiosInstance.post('/stacks', body, { params })
+    var apiUrl = ""
+    if (params.type === 1){
+      apiUrl = "/stacks/create/swarm/string"
+    }
+    if (params.type === 2){
+      apiUrl = "/stacks/create/standalone/string"
+    }
+    await this.axiosInstance.post(apiUrl, body, { endpointId: params.endpointId })
   }
 
   async updateStack(id: number, params: UpdateStackParams, body: UpdateStackBody): Promise<void> {
