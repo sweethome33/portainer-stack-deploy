@@ -54,7 +54,7 @@ export class PortainerApi {
     if (params.type === 2){
       apiUrl = "/stacks/create/standalone/string"
     }
-    await this.axiosInstance.post(apiUrl, body, { endpointId: params.endpointId })
+    await this.axiosInstance.post(apiUrl, body, { params })
   }
 
   async updateStack(id: number, params: UpdateStackParams, body: UpdateStackBody): Promise<void> {
