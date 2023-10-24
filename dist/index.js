@@ -34,12 +34,12 @@ class PortainerApi {
         return data;
     }
     async createStack(params, body) {
-        let apiUrl = "";
+        let apiUrl = '';
         if (params.type === 1) {
-            apiUrl = "/stacks/create/swarm/string";
+            apiUrl = '/stacks/create/swarm/string';
         }
         if (params.type === 2) {
-            apiUrl = "/stacks/create/standalone/string";
+            apiUrl = '/stacks/create/standalone/string';
         }
         await this.axiosInstance.post(apiUrl, body, { params });
     }
