@@ -109,7 +109,7 @@ export async function deployStack({
       core.info(`Successfully created new stack with name: ${stackName}`)
     }
   } catch (error) {
-    core.info('⛔️ Something went wrong during deployment!')
+    core.info('⛔️ Something went wrong during deployment! Error is = ' + error.message)
     throw error
   } finally {
     core.info(`Logging out from Portainer instance...`)
