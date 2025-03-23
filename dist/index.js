@@ -95,6 +95,27 @@ var StackType;
     StackType[StackType["SWARM"] = 1] = "SWARM";
     StackType[StackType["COMPOSE"] = 2] = "COMPOSE";
 })(StackType || (StackType = {}));
+function isErrorWithMessage(error) {
+    return (typeof error === 'object' &&
+        error !== null &&
+        'message' in error &&
+        typeof error.message === 'string');
+}
+function toErrorWithMessage(maybeError) {
+    if (isErrorWithMessage(maybeError))
+        return maybeError;
+    try {
+        return new Error(JSON.stringify(maybeError));
+    }
+    catch {
+        // fallback in case there's an error stringifying the maybeError
+        // like with circular references for example.
+        return new Error(String(maybeError));
+    }
+}
+function getErrorMessage(error) {
+    return toErrorWithMessage(error).message;
+}
 function generateNewStackDefinition(stackDefinitionFile, templateVariables, image) {
     const stackDefFilePath = path_1.default.join(process.env.GITHUB_WORKSPACE, stackDefinitionFile);
     core.info(`Reading stack definition file from ${stackDefFilePath}`);
@@ -152,7 +173,7 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
         }
     }
     catch (error) {
-        core.info('⛔️ Something went wrong during deployment!');
+        core.info('⛔️ Something went wrong during deployment! Error is = ' + getErrorMessage(error));
         throw error;
     }
     finally {

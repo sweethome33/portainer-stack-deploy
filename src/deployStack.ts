@@ -16,9 +16,38 @@ type DeployStack = {
   image?: string
 }
 
+type ErrorWithMessage = {
+  message: string
+}
+
 enum StackType {
   SWARM = 1,
   COMPOSE = 2
+}
+
+function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  )
+}
+
+function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
+  if (isErrorWithMessage(maybeError)) return maybeError
+
+  try {
+    return new Error(JSON.stringify(maybeError))
+  } catch {
+    // fallback in case there's an error stringifying the maybeError
+    // like with circular references for example.
+    return new Error(String(maybeError))
+  }
+}
+
+function getErrorMessage(error: unknown): string {
+  return toErrorWithMessage(error).message
 }
 
 function generateNewStackDefinition(
@@ -109,7 +138,7 @@ export async function deployStack({
       core.info(`Successfully created new stack with name: ${stackName}`)
     }
   } catch (error) {
-    core.info('⛔️ Something went wrong during deployment! Error is = ' + error.message)
+    core.info('⛔️ Something went wrong during deployment! Error is = ' + getErrorMessage(error))
     throw error
   } finally {
     core.info(`Logging out from Portainer instance...`)
