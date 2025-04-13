@@ -99,6 +99,8 @@ export async function deployStack({
   )
   core.debug(stackDefinitionToDeploy)
 
+  core.debug(JSON.stringify(env))
+
   core.info('Logging in to Portainer instance...')
   await portainerApi.login({
     username,
