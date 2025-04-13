@@ -138,7 +138,8 @@ export async function deployStack({
         {
           name: stackName,
           stackFileContent: stackDefinitionToDeploy,
-          swarmID: swarmId ? swarmId : undefined
+          swarmID: swarmId ? swarmId : undefined,
+          env: env ? env : []
         }
       )
       core.info(`Successfully created new stack with name: ${stackName}`)
