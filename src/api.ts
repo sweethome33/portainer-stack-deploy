@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-type EnvVariables = Array<{
+export type EnvVariables = Array<{
   name: string
   value: string
 }>
@@ -14,7 +14,7 @@ type StackData = {
   Env: EnvVariables
 }
 
-type CreateStackParams = { type: number; method: string; endpointId: EndpointId }
+type CreateStackParams = { type: number; method: string; endpointId: EndpointId; env: EnvVariables }
 type CreateStackBody = { name: string; stackFileContent: string; swarmID?: string }
 type UpdateStackParams = { endpointId: EndpointId }
 type UpdateStackBody = { env: EnvVariables; stackFileContent: string }

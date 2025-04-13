@@ -135,7 +135,7 @@ function generateNewStackDefinition(stackDefinitionFile, templateVariables, imag
     core.info(`Inserting image ${image} into the stack definition`);
     return stackDefinition.replace(new RegExp(`${imageWithoutTag}(:.*)?\n`), `${image}\n`);
 }
-async function deployStack({ portainerHost, username, password, swarmId, endpointId, stackName, stackDefinitionFile, templateVariables, image }) {
+async function deployStack({ portainerHost, username, password, swarmId, endpointId, stackName, stackDefinitionFile, templateVariables, image, env }) {
     const portainerApi = new api_1.PortainerApi(portainerHost);
     const stackDefinitionToDeploy = generateNewStackDefinition(stackDefinitionFile, templateVariables, image);
     core.debug(stackDefinitionToDeploy);
@@ -163,7 +163,8 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
             await portainerApi.createStack({
                 type: swarmId ? StackType.SWARM : StackType.COMPOSE,
                 method: 'string',
-                endpointId
+                endpointId,
+                env: env ? env : []
             }, {
                 name: stackName,
                 stackFileContent: stackDefinitionToDeploy,
@@ -177,6 +178,7 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
         throw error;
     }
     finally {
+        // TODO - Maybe delete this attempt to logout because it is throwing errors;
         core.info(`Logging out from Portainer instance...`);
         await portainerApi.logout();
     }
@@ -251,6 +253,9 @@ async function run() {
         const image = core.getInput('image', {
             required: false
         });
+        const environmentVariables = core.getInput('env-variables', {
+            required: false
+        });
         await (0, deployStack_1.deployStack)({
             portainerHost,
             username,
@@ -260,7 +265,8 @@ async function run() {
             stackName,
             stackDefinitionFile,
             templateVariables: templateVariables ? JSON.parse(templateVariables) : undefined,
-            image
+            image,
+            env: environmentVariables ? JSON.parse(environmentVariables) : undefined
         });
         core.info('✅ Deployment done');
     }

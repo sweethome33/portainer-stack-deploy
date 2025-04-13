@@ -1,4 +1,4 @@
-import { PortainerApi } from './api'
+import { PortainerApi, EnvVariables } from './api'
 import path from 'path'
 import fs from 'fs'
 import Handlebars from 'handlebars'
@@ -14,6 +14,7 @@ type DeployStack = {
   stackDefinitionFile: string
   templateVariables?: object
   image?: string
+  env?: EnvVariables
 }
 
 type ErrorWithMessage = {
@@ -86,7 +87,8 @@ export async function deployStack({
   stackName,
   stackDefinitionFile,
   templateVariables,
-  image
+  image,
+  env
 }: DeployStack): Promise<void> {
   const portainerApi = new PortainerApi(portainerHost)
 
@@ -127,7 +129,8 @@ export async function deployStack({
         {
           type: swarmId ? StackType.SWARM : StackType.COMPOSE,
           method: 'string',
-          endpointId
+          endpointId,
+          env: env ? env : []
         },
         {
           name: stackName,
@@ -141,6 +144,7 @@ export async function deployStack({
     core.info('⛔️ Something went wrong during deployment! Error is = ' + getErrorMessage(error))
     throw error
   } finally {
+    // TODO - Maybe delete this attempt to logout because it is throwing errors;
     core.info(`Logging out from Portainer instance...`)
     await portainerApi.logout()
   }

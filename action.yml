@@ -33,6 +33,9 @@ inputs:
   image:
     required: false
     description: 'The URI of the container image to insert into the stack definition, eg. docker.pkg.github.com/username/repo/master'
+  env-variables:
+    required: false
+    description: 'The environment variables you want to be created in portainer with the stack'
 
 runs:
   using: 'node12'
