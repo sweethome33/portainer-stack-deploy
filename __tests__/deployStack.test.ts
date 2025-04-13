@@ -40,7 +40,7 @@ describe('deployStack', () => {
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
         swarmID: 's4ny2nh7qt8lluhvddeu9ulwl',
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 1,
@@ -104,7 +104,7 @@ describe('deployStack', () => {
         name: 'new-compose-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 2,
@@ -218,7 +218,7 @@ describe('deployStack', () => {
         name: 'new-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 2,
@@ -249,7 +249,7 @@ describe('deployStack', () => {
         name: 'new-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 2,
@@ -266,7 +266,7 @@ describe('deployStack', () => {
       stackName: 'new-stack-name',
       stackDefinitionFile: 'example-stack-definition.yml',
       image: 'ghcr.io/username/repo:sha-0142c14',
-      env: []
+      env: [{ name: 'thegrandma', value: 'bigmama' }]
     })
 
     nock.isDone()
@@ -280,7 +280,7 @@ describe('deployStack', () => {
         name: 'new-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n",
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 2,
@@ -309,7 +309,7 @@ describe('deployStack', () => {
         name: 'new-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/testUsername/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n",
-        env: []
+        env: [{ name: 'thegrandma', value: 'bigmama' }]
       })
       .query({
         type: 2,
