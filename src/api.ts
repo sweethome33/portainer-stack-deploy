@@ -14,7 +14,7 @@ type StackData = {
   Env: EnvVariables
 }
 
-type CreateStackParams = { type: number; method: string; endpointId: EndpointId; env: EnvVariables }
+type CreateStackParams = { type: number; method: string; endpointId: EndpointId }
 type CreateStackBody = {
   name: string
   stackFileContent: string

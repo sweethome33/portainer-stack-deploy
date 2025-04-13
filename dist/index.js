@@ -165,8 +165,7 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
             await portainerApi.createStack({
                 type: swarmId ? StackType.SWARM : StackType.COMPOSE,
                 method: 'string',
-                endpointId,
-                env: env ? env : []
+                endpointId
             }, {
                 name: stackName,
                 stackFileContent: stackDefinitionToDeploy,
