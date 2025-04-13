@@ -140,7 +140,7 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
     const stackDefinitionToDeploy = generateNewStackDefinition(stackDefinitionFile, templateVariables, image);
     core.debug(stackDefinitionToDeploy);
     // TODO - Remove this for security reasons. It exposes security credentials
-    core.debug(JSON.stringify(env));
+    // core.debug(JSON.stringify(env))
     core.info('Logging in to Portainer instance...');
     await portainerApi.login({
         username,
@@ -170,7 +170,8 @@ async function deployStack({ portainerHost, username, password, swarmId, endpoin
             }, {
                 name: stackName,
                 stackFileContent: stackDefinitionToDeploy,
-                swarmID: swarmId ? swarmId : undefined
+                swarmID: swarmId ? swarmId : undefined,
+                env: env ? env : []
             });
             core.info(`Successfully created new stack with name: ${stackName}`);
         }

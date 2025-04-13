@@ -15,7 +15,12 @@ type StackData = {
 }
 
 type CreateStackParams = { type: number; method: string; endpointId: EndpointId; env: EnvVariables }
-type CreateStackBody = { name: string; stackFileContent: string; swarmID?: string }
+type CreateStackBody = {
+  name: string
+  stackFileContent: string
+  swarmID?: string
+  env: EnvVariables
+}
 type UpdateStackParams = { endpointId: EndpointId }
 type UpdateStackBody = { env: EnvVariables; stackFileContent: string }
 

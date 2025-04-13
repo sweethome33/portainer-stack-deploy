@@ -39,7 +39,8 @@ describe('deployStack', () => {
         name: 'new-stack-name',
         stackFileContent:
           "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
-        swarmID: 's4ny2nh7qt8lluhvddeu9ulwl'
+        swarmID: 's4ny2nh7qt8lluhvddeu9ulwl',
+        env: []
       })
       .query({
         type: 1,
@@ -62,6 +63,39 @@ describe('deployStack', () => {
     nock.isDone()
   })
 
+  // test('deploy new swarm stack with env', async () => {
+  //   nock(BASE_API_URL)
+  //     .matchHeader('authorization', 'Bearer token')
+  //     .matchHeader('content-type', 'application/json')
+  //     .post('/stacks/create/swarm/string', {
+  //       name: 'new-stack-name',
+  //       stackFileContent:
+  //         "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
+  //       swarmID: 's4ny2nh7qt8lluhvddeu9ulwl',
+  //       env: [{ name: 'keyName', value: 'value1' }]
+  //     })
+  //     .query({
+  //       type: 1,
+  //       method: 'string',
+  //       endpointId: 1
+  //     })
+  //     .reply(200)
+
+  //   await deployStack({
+  //     portainerHost: 'http://mock.url',
+  //     username: 'username',
+  //     password: 'password',
+  //     swarmId: 's4ny2nh7qt8lluhvddeu9ulwl',
+  //     endpointId: 1,
+  //     stackName: 'new-stack-name',
+  //     stackDefinitionFile: 'example-stack-definition.yml',
+  //     image: 'ghcr.io/username/repo:sha-0142c14',
+  //     env: [{ name: 'keyName', value: 'value1' }]
+  //   })
+
+  //   nock.isDone()
+  // })
+
   test('deploy compose stack', async () => {
     nock(BASE_API_URL)
       .matchHeader('authorization', 'Bearer token')
@@ -69,7 +103,8 @@ describe('deployStack', () => {
       .post('/stacks/create/standalone/string', {
         name: 'new-compose-stack-name',
         stackFileContent:
-          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n"
+          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
+        env: []
       })
       .query({
         type: 2,
@@ -90,6 +125,37 @@ describe('deployStack', () => {
 
     nock.isDone()
   })
+
+  // test('deploy new compose stack with env', async () => {
+  //   nock(BASE_API_URL)
+  //     .matchHeader('authorization', 'Bearer token')
+  //     .matchHeader('content-type', 'application/json')
+  //     .post('/stacks/create/standalone/string', {
+  //       name: 'new-compose-stack-name',
+  //       stackFileContent:
+  //         "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
+  //       env: [{ name: 'keyName', value: 'value1' }]
+  //     })
+  //     .query({
+  //       type: 2,
+  //       method: 'string',
+  //       endpointId: 1
+  //     })
+  //     .reply(200)
+
+  //   await deployStack({
+  //     portainerHost: 'http://mock.url',
+  //     username: 'username',
+  //     password: 'password',
+  //     endpointId: 1,
+  //     stackName: 'new-compose-stack-name',
+  //     stackDefinitionFile: 'example-stack-definition.yml',
+  //     image: 'ghcr.io/username/repo:sha-0142c14',
+  //     env: [{ name: 'keyName', value: 'value1' }]
+  //   })
+
+  //   nock.isDone()
+  // })
 
   test('deploy existing stack', async () => {
     nock(BASE_API_URL)
@@ -151,7 +217,8 @@ describe('deployStack', () => {
       .post('/stacks/create/standalone/string', {
         name: 'new-stack-name',
         stackFileContent:
-          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n"
+          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
+        env: []
       })
       .query({
         type: 2,
@@ -173,6 +240,38 @@ describe('deployStack', () => {
     nock.isDone()
   })
 
+  // TODO - Add key and value into the env variables to validate tests
+  test('deploy new stack with explicit endpoint id and env', async () => {
+    nock(BASE_API_URL)
+      .matchHeader('authorization', 'Bearer token')
+      .matchHeader('content-type', 'application/json')
+      .post('/stacks/create/standalone/string', {
+        name: 'new-stack-name',
+        stackFileContent:
+          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:sha-0142c14\n    deploy:\n      update_config:\n        order: start-first\n",
+        env: []
+      })
+      .query({
+        type: 2,
+        method: 'string',
+        endpointId: 2
+      })
+      .reply(200)
+
+    await deployStack({
+      portainerHost: 'http://mock.url',
+      username: 'username',
+      password: 'password',
+      endpointId: 2,
+      stackName: 'new-stack-name',
+      stackDefinitionFile: 'example-stack-definition.yml',
+      image: 'ghcr.io/username/repo:sha-0142c14',
+      env: []
+    })
+
+    nock.isDone()
+  })
+
   test('deploy without specific image', async () => {
     nock(BASE_API_URL)
       .matchHeader('authorization', 'Bearer token')
@@ -180,7 +279,8 @@ describe('deployStack', () => {
       .post('/stacks/create/standalone/string', {
         name: 'new-stack-name',
         stackFileContent:
-          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n"
+          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/username/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n",
+        env: []
       })
       .query({
         type: 2,
@@ -208,7 +308,8 @@ describe('deployStack', () => {
       .post('/stacks/create/standalone/string', {
         name: 'new-stack-name',
         stackFileContent:
-          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/testUsername/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n"
+          "version: '3.7'\n\nservices:\n  server:\n    image: ghcr.io/testUsername/repo:latest\n    deploy:\n      update_config:\n        order: start-first\n",
+        env: []
       })
       .query({
         type: 2,

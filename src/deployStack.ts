@@ -100,7 +100,7 @@ export async function deployStack({
   core.debug(stackDefinitionToDeploy)
 
   // TODO - Remove this for security reasons. It exposes security credentials
-  core.debug(JSON.stringify(env))
+  // core.debug(JSON.stringify(env))
 
   core.info('Logging in to Portainer instance...')
   await portainerApi.login({
